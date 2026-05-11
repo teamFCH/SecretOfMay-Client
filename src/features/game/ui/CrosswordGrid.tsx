@@ -40,7 +40,7 @@ export function CrosswordGrid({ puzzle, state, actions }: CrosswordGridProps) {
     // IME 조합 중에는 compositionEnd가 처리 — 내비게이션 키만 통과
     if (isComposingRef.current) return;
     if (e.key === "Backspace" || e.key === "Delete") sound.tick();
-    actions.handleKeyDown(e as unknown as KeyboardEvent<HTMLElement>);
+    actions.handleKeyDown(e);
   };
 
   const handleCompositionStart = () => {
