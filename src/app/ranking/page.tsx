@@ -23,6 +23,8 @@ function RankingPageContent() {
   const handleBack = () => {
     if (from === "result") {
       router.push("/result");
+    } else if (from === "game") {
+      router.push("/");
     } else {
       router.push("/");
     }
