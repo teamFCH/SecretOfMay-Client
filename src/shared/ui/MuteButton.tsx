@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/shared/lib/cn";
 import sound from "@/shared/lib/sound";
 
 export function MuteButton() {
-  const [muted, setMuted] = useState(sound.isMuted);
+  const [muted, setMuted] = useState(false);
+
+  useEffect(() => {
+    setMuted(sound.isMuted());
+  }, []);
 
   const toggle = () => {
     const next = sound.toggleMute();
