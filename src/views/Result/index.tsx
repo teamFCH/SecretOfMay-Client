@@ -54,15 +54,15 @@ export function ResultView({ result, onRestart, onHome, onViewRanking }: ResultV
   return (
     <ArchivePage panelClassName="max-w-[480px]" contentClassName="flex flex-col gap-7">
       <div className="flex flex-col gap-1">
-        <p className="font-mono text-[10px] tracking-[0.3em] uppercase text-parchment-muted">
+        <p className="font-mono text-[12px] tracking-[0.3em] uppercase text-parchment-muted">
           {ARCHIVE_NAME}
         </p>
         <div className="flex items-start justify-between border-t border-wire/60 pt-2">
           <div>
-            <p className="font-mono text-[10px] tracking-[0.2em] text-parchment-muted">
+            <p className="font-mono text-[12px] tracking-[0.2em] text-parchment-muted">
               복원 보고서
             </p>
-            <p className="mt-0.5 font-mono text-[10px] tracking-[0.15em] text-parchment-muted/60">
+            <p className="mt-0.5 font-mono text-[12px] tracking-[0.15em] text-parchment-muted/60">
               문서번호 : {DEFAULT_DOCUMENT_ID}
             </p>
           </div>
@@ -76,18 +76,18 @@ export function ResultView({ result, onRestart, onHome, onViewRanking }: ResultV
             aria-label={`등급 ${grade.label}`}
           >
             {grade.label === "미완" ? (
-              <span className="text-[13px]">미완</span>
+              <span className="text-[15px]">미완</span>
             ) : (
-              <span className="text-[22px]">{grade.label}</span>
+              <span className="text-[24px]">{grade.label}</span>
             )}
           </div>
         </div>
       </div>
 
-      <div className="flex items-center justify-center py-4">
+      <div className="flex items-center justify-center py-3 sm:py-4">
         <div
           className={cn(
-            "rotate-[-3deg] border-4 px-8 py-4 text-center font-serif text-[32px] font-black leading-tight tracking-[0.15em] whitespace-pre-line opacity-90",
+            "rotate-[-3deg] border-4 px-5 py-3 sm:px-8 sm:py-4 text-center font-serif text-[30px] sm:text-[36px] font-black leading-tight tracking-[0.15em] whitespace-pre-line opacity-90",
             stampColor,
           )}
         >
@@ -106,7 +106,7 @@ export function ResultView({ result, onRestart, onHome, onViewRanking }: ResultV
         />
       </div>
 
-      <p className="ml-2 border-l-2 border-wire/40 pl-3 text-center font-mono text-[10px] leading-[1.9] text-parchment-dim">
+      <p className="ml-2 border-l-2 border-wire/40 pl-3 text-center font-mono text-[12px] leading-[1.9] text-parchment-dim">
         {isComplete
           ? "모든 기록이 복원되었습니다. 역사는 잊히지 않습니다."
           : "기록 복원이 완료되지 않았습니다. 다시 시도하십시오."}
@@ -139,21 +139,21 @@ function StatRow({
   highlight?: boolean;
 }) {
   return (
-    <div className="flex items-center justify-between px-4 py-2.5 gap-4">
-      <span className="font-mono text-[10px] tracking-[0.15em] text-parchment-muted shrink-0">
+    <div className="flex items-center justify-between px-3 py-2 sm:px-4 sm:py-2.5 gap-3 sm:gap-4">
+      <span className="font-mono text-[12px] tracking-[0.15em] text-parchment-muted shrink-0">
         {label}
       </span>
       <div className="flex flex-col items-end">
         <span
           className={[
-            "font-mono text-[13px] tabular-nums",
+            "font-mono text-[15px] tabular-nums",
             highlight ? "text-parchment" : "text-parchment-dim",
           ].join(" ")}
         >
           {value}
         </span>
         {sub && (
-          <span className="font-mono text-[9px] text-parchment-muted/70 tracking-[0.1em]">
+          <span className="font-mono text-[11px] text-parchment-muted/70 tracking-widest">
             {sub}
           </span>
         )}

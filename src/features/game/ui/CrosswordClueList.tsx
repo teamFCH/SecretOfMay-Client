@@ -24,7 +24,7 @@ function ClueSection({
 }) {
   return (
     <section className="flex flex-col gap-0.5" aria-label={`${directionLabel} 단서`}>
-      <div className="border-b border-wire/40 px-1 pb-1 font-mono text-[9px] uppercase tracking-[0.3em] text-parchment-muted">
+      <div className="border-b border-wire/40 px-1 pb-1 font-mono text-[11px] uppercase tracking-[0.3em] text-parchment-muted">
         {directionLabel}
       </div>
       {entries.map((entry) => {
@@ -36,7 +36,7 @@ function ClueSection({
             type="button"
             onClick={() => onSelect(entry)}
             className={[
-              "text-left flex gap-2 px-2 py-1.5 transition-colors duration-100 border-l-2",
+              "text-left flex gap-1.5 px-1.5 py-1 transition-colors duration-100 border-l-2",
               isActive
                 ? "bg-blood/15 border-blood text-parchment"
                 : isSolved
@@ -46,12 +46,12 @@ function ClueSection({
             aria-pressed={isActive}
             aria-label={`${entry.number}. ${entry.clue}${isSolved ? " (완성됨)" : ""}`}
           >
-            <span className="font-mono text-[10px] shrink-0 w-4 text-right text-parchment-muted">
+            <span className="font-mono text-[11px] shrink-0 w-4 text-right text-parchment-muted">
               {entry.number}
             </span>
             <span
               className={[
-                "font-mono text-[10px] leading-[1.75]",
+                "font-mono text-[11px] leading-[1.6]",
                 isSolved ? "line-through" : "",
               ].join(" ")}
             >
@@ -75,7 +75,7 @@ export function CrosswordClueList({ entries, state, actions }: CrosswordClueList
   );
 
   return (
-    <div className="flex flex-col gap-4 overflow-y-auto">
+    <div className="grid grid-cols-2 gap-x-1">
       <ClueSection
         directionLabel={getDirectionLabel("across")}
         entries={groupedEntries.across}

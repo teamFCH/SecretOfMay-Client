@@ -77,13 +77,13 @@ export function GameView({ playerName, onComplete, onQuit }: GameViewProps) {
           phase={phase}
         />
 
-        <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-4 px-3 py-4 lg:flex-row">
-          <div className="flex flex-col gap-2 lg:flex-1">
+        <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-3 px-2 py-3 sm:gap-4 sm:px-3 sm:py-4 md:flex-row">
+          <div className="flex flex-col gap-2 md:flex-1">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-parchment-muted">
+              <span className="font-mono text-[12px] uppercase tracking-[0.28em] text-parchment-muted">
                 낱말 퍼즐
               </span>
-              <span className="font-mono text-[10px] tracking-[0.15em] text-parchment-muted">
+              <span className="font-mono text-[12px] tracking-[0.15em] text-parchment-muted">
                 {foundCount}/{totalWords} 복원
               </span>
             </div>
@@ -100,10 +100,10 @@ export function GameView({ playerName, onComplete, onQuit }: GameViewProps) {
               {phase === "idle" && (
                 <div className="absolute inset-0 flex items-center justify-center bg-paper/85 backdrop-blur-[1px]">
                   <div className="flex max-w-60 flex-col items-center gap-4 px-6 text-center">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-parchment-muted">
+                    <p className="font-mono text-[12px] uppercase tracking-[0.28em] text-parchment-muted">
                       복원 대기 중
                     </p>
-                    <p className="font-serif text-[14px] leading-relaxed text-parchment">
+                    <p className="font-serif text-[16px] leading-relaxed text-parchment">
                       1980년 5월, 광주의 기록을 복원하십시오.
                     </p>
                     <RetroButton onClick={start}>기록 복원 시작 →</RetroButton>
@@ -112,13 +112,13 @@ export function GameView({ playerName, onComplete, onQuit }: GameViewProps) {
               )}
             </div>
 
-            <p className="text-center font-mono text-[10px] tracking-widest text-parchment-muted/60">
+            <p className="text-center font-mono text-[12px] tracking-widest text-parchment-muted/60">
               칸 클릭 후 한글 입력 · 재클릭으로 가로↔세로 전환
             </p>
           </div>
 
-          <div className="flex flex-col gap-3 lg:w-64 xl:w-72">
-            <div className="flex flex-1 flex-col overflow-hidden border border-wire bg-paper/40">
+          <div className="flex flex-col gap-3 md:w-72 lg:w-80 xl:w-96">
+            <div className="flex flex-col overflow-hidden border border-wire bg-paper/40 max-h-48 sm:max-h-60 md:max-h-none md:flex-1">
               <div className="flex shrink-0 items-center justify-between border-b border-wire/50 px-3 py-2">
                 <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-parchment-muted">
                   단서
@@ -137,13 +137,13 @@ export function GameView({ playerName, onComplete, onQuit }: GameViewProps) {
               </div>
             </div>
 
-            <div className="hidden lg:block">
+            <div className="hidden md:block">
               <GameControls onQuit={handleQuit} disabled={!isPlaying} />
             </div>
           </div>
         </div>
 
-        <div className="border-t border-wire bg-paper/95 px-4 py-3 lg:hidden">
+        <div className="border-t border-wire bg-paper/95 px-4 py-3 md:hidden">
           <GameControls onQuit={handleQuit} disabled={!isPlaying} />
         </div>
       </div>

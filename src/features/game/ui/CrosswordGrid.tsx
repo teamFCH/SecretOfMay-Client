@@ -146,11 +146,11 @@ export function CrosswordGrid({ puzzle, state, actions }: CrosswordGridProps) {
                 aria-label={`${r + 1}행 ${c + 1}열${cellState.input ? `, 입력 ${cellState.input}` : ""}`}
               >
                 {num !== null && (
-                  <span className="absolute top-[3%] left-[4%] font-mono text-[clamp(5px,1.2vw,8px)] leading-none text-[#5a4020] font-medium">
+                  <span className="absolute top-[3%] left-[4%] font-mono text-[clamp(7px,1.5vw,10px)] leading-none text-[#5a4020] font-medium">
                     {num}
                   </span>
                 )}
-                <span className="font-serif font-bold text-[clamp(11px,2.6vw,20px)] leading-none">
+                <span className="font-serif font-bold text-[clamp(13px,3vw,22px)] leading-none">
                   {selectedKey === getCellKey(r, c) && composingChar ? composingChar : cellState.input}
                 </span>
               </div>

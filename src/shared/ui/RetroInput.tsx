@@ -30,7 +30,7 @@ export function RetroInput({
       {label && (
         <label
           htmlFor={inputId}
-          className="font-mono text-[10px] tracking-[0.22em] uppercase text-parchment-dim"
+          className="font-mono text-[12px] tracking-[0.22em] uppercase text-parchment-dim"
         >
           {label}
         </label>

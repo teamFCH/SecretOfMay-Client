@@ -19,7 +19,7 @@ export function ArchivePage({
     <CRTScreen>
       <main
         className={cn(
-          "relative z-10 flex min-h-screen items-center justify-center px-4 py-12 page-enter",
+          "relative z-10 flex min-h-screen items-center justify-center px-4 py-8 sm:py-12 page-enter",
           mainClassName,
         )}
       >

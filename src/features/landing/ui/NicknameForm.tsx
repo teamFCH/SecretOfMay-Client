@@ -31,7 +31,7 @@ export function NicknameForm({ onSubmit, defaultValue = "" }: NicknameFormProps)
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 animate-in-2">
-      <p className="text-center font-mono text-[10px] uppercase tracking-[0.28em] text-parchment-muted">
+      <p className="text-center font-mono text-[12px] uppercase tracking-[0.28em] text-parchment-muted">
         복원 요원 신원 확인
       </p>
 

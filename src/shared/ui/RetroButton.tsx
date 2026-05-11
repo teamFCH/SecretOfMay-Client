@@ -57,7 +57,7 @@ export function RetroButton({
       className={cn(
         "inline-flex items-center justify-center",
         "px-8 py-2.5",
-        "font-mono text-[11px] tracking-[0.22em] uppercase",
+        "font-mono text-[13px] tracking-[0.22em] uppercase",
         "transition-all duration-150 ease-in-out cursor-pointer",
         "active:translate-y-px",
         "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blood-bright/70",

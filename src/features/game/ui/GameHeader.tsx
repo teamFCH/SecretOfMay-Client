@@ -18,26 +18,26 @@ export function GameHeader({ playerName, elapsed, foundCount, totalWords, phase 
   return (
     <header className="sticky top-0 z-20 border-b border-wire bg-paper/95 backdrop-blur-sm">
       <div className="border-b border-wire/40 px-4 py-1 flex items-center justify-between">
-        <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-parchment-muted">
+        <span className="font-mono text-[12px] tracking-[0.25em] uppercase text-parchment-muted">
           {ARCHIVE_NAME}
         </span>
         <div className="flex items-center gap-3">
-          <span className="font-mono text-[10px] tracking-[0.15em] text-parchment-muted">
+          <span className="hidden sm:inline font-mono text-[12px] tracking-[0.15em] text-parchment-muted">
             문서번호 : {DEFAULT_DOCUMENT_ID}
           </span>
           <MuteButton />
         </div>
       </div>
 
-      <div className="px-4 py-2.5 flex items-center justify-between gap-4">
+      <div className="px-3 sm:px-4 py-2 sm:py-2.5 flex items-center justify-between gap-2 sm:gap-4">
         <div className="flex flex-col gap-0.5 shrink-0">
-          <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-parchment-muted">
+          <span className="hidden sm:block font-mono text-[11px] tracking-[0.22em] uppercase text-parchment-muted">
             복원 요원
           </span>
-          <span className="font-mono text-[12px] tracking-wider text-parchment">{playerName}</span>
+          <span className="font-mono text-[13px] sm:text-[14px] tracking-wider text-parchment">{playerName}</span>
         </div>
 
-        <div className="flex-1 max-w-xs flex flex-col gap-1.5 items-center">
+        <div className="flex-1 max-w-35 sm:max-w-xs flex flex-col gap-1 sm:gap-1.5 items-center">
           <div className="flex items-center gap-2 w-full">
             <div className="flex-1 flex gap-px">
               {Array.from({ length: totalWords }, (_, i) => (
@@ -50,22 +50,22 @@ export function GameHeader({ playerName, elapsed, foundCount, totalWords, phase 
                 />
               ))}
             </div>
-            <span className="font-mono text-[11px] tabular-nums shrink-0">
+            <span className="font-mono text-[13px] tabular-nums shrink-0">
               <span className="text-parchment">{foundCount}</span>
               <span className="text-parchment-muted">/{totalWords}</span>
             </span>
           </div>
-          <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-parchment-muted">
+          <span className="font-mono text-[11px] tracking-[0.22em] uppercase text-parchment-muted">
             복원 완료
           </span>
         </div>
 
         <div className="flex flex-col gap-0.5 items-end shrink-0">
-          <span className="font-mono text-[9px] tracking-[0.22em] uppercase text-parchment-muted">
+          <span className="hidden sm:block font-mono text-[11px] tracking-[0.22em] uppercase text-parchment-muted">
             {isIdle ? "대기 중" : "경과 시간"}
           </span>
           <span
-            className="font-mono text-[22px] leading-none tabular-nums text-parchment transition-colors duration-300"
+            className="font-mono text-[20px] sm:text-[24px] leading-none tabular-nums text-parchment transition-colors duration-300"
             aria-live="polite"
           >
             {formatClock(elapsed, " : ")}
