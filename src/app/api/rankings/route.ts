@@ -77,9 +77,10 @@ export async function GET() {
       return Response.json(SEED_RANKINGS.slice(0, DISPLAY_LIMIT));
     }
 
-    const entries = (
-      await Promise.all(ids.map((id) => kv.hget<RankingEntry>(DATA_KEY, id)))
-    ).filter((e): e is RankingEntry => e !== null);
+    const rawEntries = await kv.hmget<Record<string, RankingEntry | null>>(DATA_KEY, ...ids);
+    const entries = rawEntries
+      ? Object.values(rawEntries).filter((e): e is RankingEntry => e !== null)
+      : [];
 
     return Response.json(
       entries.sort(
