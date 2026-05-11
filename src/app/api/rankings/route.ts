@@ -97,7 +97,11 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const entry = (await request.json()) as RankingEntry;
+    const body = await request.json();
+    if (!body || typeof body !== "object") {
+      return Response.json({ error: "invalid" }, { status: 400 });
+    }
+    const entry = body as RankingEntry;
 
     if (
       typeof entry.id !== "string" ||
