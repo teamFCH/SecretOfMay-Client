@@ -49,12 +49,14 @@ export function RetroButton({
 
   return (
     <button
+      aria-label={typeof children === "string" ? children : undefined}
+      {...props}
       type={props.type ?? "button"}
       onMouseEnter={handleMouseEnter}
       onClick={handleClick}
       className={cn(
         "inline-flex items-center justify-center",
-        "px-8 py-[10px]",
+        "px-8 py-2.5",
         "font-mono text-[11px] tracking-[0.22em] uppercase",
         "transition-all duration-150 ease-in-out cursor-pointer",
         "active:translate-y-px",
@@ -64,8 +66,6 @@ export function RetroButton({
         fullWidth ? "w-full" : "",
         className,
       )}
-      {...props}
-      aria-label={typeof children === "string" ? children : undefined}
     >
       {children}
     </button>
