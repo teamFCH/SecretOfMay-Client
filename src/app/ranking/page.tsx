@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { RankingView } from "@/views/Ranking";
 import type { RankingEntry } from "@/shared/types/ranking";
 
-export default function RankingPage() {
+function RankingPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const from = searchParams.get("from") ?? "landing";
@@ -30,5 +30,13 @@ export default function RankingPage() {
 
   return (
     <RankingView rankings={rankings} currentPlayer={currentPlayer} onBack={handleBack} />
+  );
+}
+
+export default function RankingPage() {
+  return (
+    <Suspense>
+      <RankingPageContent />
+    </Suspense>
   );
 }
