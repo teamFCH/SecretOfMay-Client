@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ResultView } from "@/views/Result";
 import { readJsonStorage, removeStorageItem } from "@/shared/lib/storage";
-import { LATEST_RESULT_STORAGE_KEY, PLAYER_STORAGE_KEY } from "@/shared/config/app";
-import { readStorageItem } from "@/shared/lib/storage";
+import { LATEST_RESULT_STORAGE_KEY } from "@/shared/config/app";
 import type { GameResult } from "@/shared/types/game";
 
 function isGameResult(value: unknown): value is GameResult {
@@ -38,8 +37,6 @@ export default function ResultPage() {
 
   if (!result) return null;
 
-  const playerName = readStorageItem("local", PLAYER_STORAGE_KEY) ?? "";
-
   const handleRestart = () => {
     removeStorageItem("local", LATEST_RESULT_STORAGE_KEY);
     router.push("/game");
@@ -55,7 +52,7 @@ export default function ResultPage() {
       result={result}
       onRestart={handleRestart}
       onHome={handleHome}
-      onViewRanking={() => router.push(`/ranking?from=result&player=${encodeURIComponent(playerName)}`)}
+      onViewRanking={() => router.push(`/ranking?from=result&id=${encodeURIComponent(result.id)}`)}
     />
   );
 }

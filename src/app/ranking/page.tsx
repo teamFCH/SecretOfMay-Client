@@ -9,7 +9,7 @@ function RankingPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const from = searchParams.get("from") ?? "landing";
-  const currentPlayer = searchParams.get("player") ?? undefined;
+  const currentPlayer = searchParams.get("id") ?? undefined;
 
   const [rankings, setRankings] = useState<RankingEntry[]>([]);
 

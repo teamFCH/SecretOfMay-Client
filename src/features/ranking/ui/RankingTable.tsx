@@ -45,7 +45,7 @@ export function RankingTable({ rankings, currentPlayer }: RankingTableProps) {
           {rankings.map((entry, index) => {
             const rank = index + 1;
             const colorClassName = getRankColor(rank);
-            const isCurrentPlayer = Boolean(currentPlayer) && entry.playerName === currentPlayer;
+            const isCurrentPlayer = Boolean(currentPlayer) && entry.id === currentPlayer;
             const isEmphasized = rank <= 3 || isCurrentPlayer;
 
             return (
