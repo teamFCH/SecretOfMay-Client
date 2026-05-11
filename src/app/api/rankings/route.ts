@@ -1,9 +1,10 @@
 import { Redis } from "@upstash/redis";
-
-const kv = Redis.fromEnv();
 import type { RankingEntry } from "@/shared/types/ranking";
 
-const KV_KEY = "rankings";
+const kv = Redis.fromEnv();
+
+const SCORES_KEY = "rankings:scores";
+const DATA_KEY = "rankings:data";
 const MAX_STORED = 100;
 const DISPLAY_LIMIT = 20;
 
@@ -50,27 +51,44 @@ const SEED_RANKINGS: RankingEntry[] = [
   },
 ];
 
-function sortRankings(entries: RankingEntry[]): RankingEntry[] {
-  return [...entries].sort(
-    (a, b) =>
-      b.solvedCount - a.solvedCount ||
-      a.timeUsed - b.timeUsed ||
-      Date.parse(a.playedAt) - Date.parse(b.playedAt),
-  );
+// Lower score = better rank (solvedCount has priority over timeUsed)
+function rankScore(entry: RankingEntry): number {
+  return -(entry.solvedCount * 1_000_000) + entry.timeUsed;
 }
 
-async function loadRankings(): Promise<RankingEntry[]> {
-  const stored = await kv.get<RankingEntry[]>(KV_KEY);
-  if (stored && stored.length > 0) return stored;
+async function ensureSeeded(): Promise<void> {
+  const count = await kv.zcard(SCORES_KEY);
+  if (count > 0) return;
 
-  await kv.set(KV_KEY, SEED_RANKINGS);
-  return SEED_RANKINGS;
+  const pipeline = kv.pipeline();
+  for (const entry of SEED_RANKINGS) {
+    pipeline.hset(DATA_KEY, { [entry.id]: entry });
+    pipeline.zadd(SCORES_KEY, { member: entry.id, score: rankScore(entry) });
+  }
+  await pipeline.exec();
 }
 
 export async function GET() {
   try {
-    const rankings = await loadRankings();
-    return Response.json(sortRankings(rankings).slice(0, DISPLAY_LIMIT));
+    await ensureSeeded();
+
+    const ids = await kv.zrange<string[]>(SCORES_KEY, 0, DISPLAY_LIMIT - 1);
+    if (ids.length === 0) {
+      return Response.json(SEED_RANKINGS.slice(0, DISPLAY_LIMIT));
+    }
+
+    const entries = (
+      await Promise.all(ids.map((id) => kv.hget<RankingEntry>(DATA_KEY, id)))
+    ).filter((e): e is RankingEntry => e !== null);
+
+    return Response.json(
+      entries.sort(
+        (a, b) =>
+          b.solvedCount - a.solvedCount ||
+          a.timeUsed - b.timeUsed ||
+          Date.parse(a.playedAt) - Date.parse(b.playedAt),
+      ),
+    );
   } catch {
     return Response.json(SEED_RANKINGS, { status: 200 });
   }
@@ -88,14 +106,18 @@ export async function POST(request: Request) {
       return Response.json({ error: "invalid" }, { status: 400 });
     }
 
-    const rankings = await loadRankings();
+    await ensureSeeded();
 
-    if (rankings.some((e) => e.id === entry.id)) {
+    // hsetnx is atomic: returns 1 if newly set, 0 if already existed
+    const isNew = await kv.hsetnx(DATA_KEY, entry.id, entry);
+    if (!isNew) {
       return Response.json({ ok: true });
     }
 
-    const updated = sortRankings([...rankings, entry]).slice(0, MAX_STORED);
-    await kv.set(KV_KEY, updated);
+    const pipeline = kv.pipeline();
+    pipeline.zadd(SCORES_KEY, { member: entry.id, score: rankScore(entry) });
+    pipeline.zremrangebyrank(SCORES_KEY, MAX_STORED, -1);
+    await pipeline.exec();
 
     return Response.json({ ok: true });
   } catch {
