@@ -159,6 +159,32 @@ export function useCrossword(
     [cellGrid, puzzleIndex],
   );
 
+  const applyInputToCell = useCallback(
+    (
+      inputCharacter: string,
+      row: number,
+      col: number,
+      cells: readonly CellPosition[],
+      currentIndex: number,
+    ) => {
+      setCellGrid((previousGrid) =>
+        updateGridCells(previousGrid, [[row, col]], () => ({
+          input: inputCharacter,
+          isCorrect: puzzle.answerGrid[row][col] === inputCharacter ? true : null,
+        })),
+      );
+
+      let nextIndex = currentIndex + 1;
+      while (nextIndex < cells.length && cellGrid[cells[nextIndex][0]][cells[nextIndex][1]].input) {
+        nextIndex += 1;
+      }
+      if (nextIndex < cells.length) {
+        setSelectedCell(cells[nextIndex]);
+      }
+    },
+    [cellGrid, puzzle],
+  );
+
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLElement>) => {
       if (!selectedCell || !activeEntry) return;
@@ -234,26 +260,9 @@ export function useCrossword(
       }
 
       event.preventDefault();
-      const inputCharacter = normalizeAnswerKey(event.key);
-
-      setCellGrid((previousGrid) =>
-        updateGridCells(previousGrid, [[row, col]], () => ({
-          input: inputCharacter,
-          isCorrect: puzzle.answerGrid[row][col] === inputCharacter ? true : null,
-        })),
-      );
-
-      let nextIndex = currentIndex + 1;
-
-      while (nextIndex < cells.length && cellGrid[cells[nextIndex][0]][cells[nextIndex][1]].input) {
-        nextIndex += 1;
-      }
-
-      if (nextIndex < cells.length && nextIndex !== currentIndex) {
-        setSelectedCell(cells[nextIndex]);
-      }
+      applyInputToCell(normalizeAnswerKey(event.key), row, col, cells, currentIndex);
     },
-    [activeEntry, cellGrid, direction, puzzle, puzzleIndex, selectedCell],
+    [activeEntry, applyInputToCell, cellGrid, direction, puzzle, puzzleIndex, selectedCell],
   );
 
   const revealEntry = useCallback(
@@ -294,22 +303,9 @@ export function useCrossword(
 
       if (currentIndex === -1) return;
 
-      setCellGrid((prev) =>
-        updateGridCells(prev, [[row, col]], () => ({
-          input: inputChar,
-          isCorrect: puzzle.answerGrid[row][col] === inputChar ? true : null,
-        })),
-      );
-
-      let nextIndex = currentIndex + 1;
-      while (nextIndex < cells.length && cellGrid[cells[nextIndex][0]][cells[nextIndex][1]].input) {
-        nextIndex++;
-      }
-      if (nextIndex < cells.length) {
-        setSelectedCell(cells[nextIndex]);
-      }
+      applyInputToCell(inputChar, row, col, cells, currentIndex);
     },
-    [activeEntry, cellGrid, puzzle, puzzleIndex, selectedCell],
+    [activeEntry, applyInputToCell, cellGrid, puzzle, puzzleIndex, selectedCell],
   );
 
   return [
