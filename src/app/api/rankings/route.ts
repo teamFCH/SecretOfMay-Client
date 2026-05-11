@@ -101,7 +101,10 @@ export async function POST(request: Request) {
     if (
       typeof entry.id !== "string" ||
       typeof entry.playerName !== "string" ||
-      typeof entry.timeUsed !== "number"
+      typeof entry.timeUsed !== "number" ||
+      typeof entry.solvedCount !== "number" ||
+      typeof entry.totalWords !== "number" ||
+      typeof entry.playedAt !== "string"
     ) {
       return Response.json({ error: "invalid" }, { status: 400 });
     }
