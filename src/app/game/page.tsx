@@ -22,9 +22,21 @@ export default function GamePage() {
     setReady(true);
   }, [router]);
 
-  const handleComplete = (result: GameResult) => {
+  const handleComplete = async (result: GameResult) => {
     writeStorageItem("local", LATEST_RESULT_STORAGE_KEY, JSON.stringify(result));
-    router.push("/result");
+    await fetch("/api/rankings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: result.id,
+        playerName: result.playerName,
+        timeUsed: result.timeUsed,
+        solvedCount: result.solvedCount,
+        totalWords: result.totalWords,
+        playedAt: result.completedAt,
+      }),
+    }).catch(() => {});
+    router.push(`/ranking?from=game&id=${encodeURIComponent(result.id)}`);
   };
 
   const handleQuit = () => {
