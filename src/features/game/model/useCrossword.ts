@@ -305,7 +305,7 @@ export function useCrossword(
 
       applyInputToCell(inputChar, row, col, cells, currentIndex);
     },
-    [activeEntry, applyInputToCell, cellGrid, puzzle, puzzleIndex, selectedCell],
+    [activeEntry, applyInputToCell, puzzleIndex, selectedCell],
   );
 
   return [
