@@ -44,9 +44,9 @@ export function useGameTimer(initialElapsed = 0) {
 
   useEffect(() => {
     if (state.phase !== "playing") return;
-    const id = window.setTimeout(() => dispatch({ type: "tick" }), 1000);
-    return () => window.clearTimeout(id);
-  }, [state.phase, state.elapsed]);
+    const id = window.setInterval(() => dispatch({ type: "tick" }), 1000);
+    return () => window.clearInterval(id);
+  }, [state.phase]);
 
   const start = useCallback(() => dispatch({ type: "start" }), []);
   const markComplete = useCallback(() => dispatch({ type: "markComplete" }), []);
